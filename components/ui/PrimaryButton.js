@@ -1,9 +1,7 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
-
+import Colors from '../../utils/colors'
 export const PrimaryButton = (props) => {
-  const pressHandler = () => {
-    console.log("I'm Pressed :(");
-  };
+  const {children, onPress} = props
 
   return (
     <View style={styles.outerButtonContainer}>
@@ -13,7 +11,7 @@ export const PrimaryButton = (props) => {
             ? [styles.innerButtonContainer, styles.pressed]
             : styles.innerButtonContainer;
         }}
-        onPress={pressHandler}
+        onPress={onPress}
       >
         <Text style={styles.buttonText}>{props.children}</Text>
       </Pressable>
@@ -29,7 +27,7 @@ const styles = StyleSheet.create({
   },
 
   innerButtonContainer: {
-    backgroundColor: "#870848",
+    backgroundColor: Colors.primary500,
     paddingVertical: 8,
     paddingHorizontal: 16,
     elevation: 2,
