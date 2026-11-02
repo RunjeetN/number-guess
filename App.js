@@ -5,11 +5,22 @@ import { GameScreen } from "./screens/GameScreen";
 import GameOverScreen from './screens/GameOverScreen'
 import { useState } from "react";
 import Colors from './utils/colors'
+import { useFonts } from 'expo-font'
+
 export default function App() {
   const [userNumber, setUserNumber] = useState(undefined);
   const [gameOver, setGameOver] = useState(false)
   function pickedNumberHandler(pickedNumber) {
     setUserNumber(pickedNumber);
+  }
+  
+  const [fontsLoaded] = useFonts({
+    'open-sans-bold' : require('./assets/fonts/OpenSans-Regular.ttf'),
+    'open-sans' : require('./assets/fonts/OpenSans-Bold.ttf')
+  });
+
+  if(!fontsLoaded){
+    return null
   }
 
   function GameOverScreenHandler(){

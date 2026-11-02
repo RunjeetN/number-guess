@@ -4,6 +4,10 @@ import Title from "../components/ui/Title";
 import NumberContainer from "../components/game/NumberContainer";
 import { PrimaryButton } from "../components/ui/PrimaryButton";
 import GameOverScreen from "./GameOverScreen";
+import Card from "../components/ui/Card";
+import InstructionText from "../components/ui/InstructionText";
+import { Ionicons } from '@expo/vector-icons'
+
 
 let minBoundary = 1;
 let maxBoundary = 100;
@@ -11,16 +15,15 @@ let maxBoundary = 100;
 export const GameScreen = ({ userNumber, GameOverHandler }) => {
   const initialGuess = generateRandomBetween(1, 100, userNumber);
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
-  console.log(`userNumber:${userNumber} currentGuess:${currentGuess} minBoundary:${minBoundary} maxBoundary:${maxBoundary}`)
-
-  useEffect(
-    () => {
-      if (userNumber === currentGuess) {
-        GameOverHandler();
-      }
-    },
-    [userNumber, currentGuess, GameOverHandler],
+  console.log(
+    `userNumber:${userNumber} currentGuess:${currentGuess} minBoundary:${minBoundary} maxBoundary:${maxBoundary}`,
   );
+
+  useEffect(() => {
+    if (userNumber === currentGuess) {
+      GameOverHandler();
+    }
+  }, [userNumber, currentGuess, GameOverHandler]);
 
   function generateRandomBetween(min, max, exclude) {
     const rndNum = Math.floor(Math.random() * (max - min)) + min;
@@ -41,7 +44,7 @@ export const GameScreen = ({ userNumber, GameOverHandler }) => {
       Alert.alert("you filthy fucking liar", "don't lie slut!", [
         { text: "Sorry Zaddy" },
       ]);
-      return 
+      return;
     }
     if (direction === "lower") {
       maxBoundary = currentGuess;
@@ -61,15 +64,21 @@ export const GameScreen = ({ userNumber, GameOverHandler }) => {
       <Title>Opponent's Guess</Title>
       <NumberContainer>{currentGuess}</NumberContainer>
       <View>
-        <Text>Higher or Lower</Text>
-        <View>
-          <PrimaryButton onPress={nextGuessHandler.bind(this, "lower")}>
-            -
-          </PrimaryButton>
-          <PrimaryButton onPress={nextGuessHandler.bind(this, "higher")}>
-            +
-          </PrimaryButton>
-        </View>
+        <Card>
+          <InstructionText style={styles.instructionText}>Higher or Lower</InstructionText>
+          <View style={styles.buttonsContainer}>
+            <View style={styles.buttonContainer}>
+              <PrimaryButton onPress={nextGuessHandler.bind(this, "lower")}>
+                <Ionicons name="remove" size={24} color='white'/>
+              </PrimaryButton>
+            </View>
+            <View style={styles.buttonContainer}>
+              <PrimaryButton onPress={nextGuessHandler.bind(this, "higher")}>
+                <Ionicons name="add" size={24} color='white'/>
+              </PrimaryButton>
+            </View>
+          </View>
+        </Card>
       </View>
       <View>{/* LOG ROUNDS */}</View>
     </View>
@@ -78,6 +87,15 @@ export const GameScreen = ({ userNumber, GameOverHandler }) => {
 
 const styles = StyleSheet.create({
   screen: {
+    flex: 1,
+  },
+  instructionText: {
+    marginBottom: 12,
+  },
+  buttonsContainer: {
+    flexDirection: "row",
+  },
+  buttonContainer: {
     flex: 1,
   },
 });
